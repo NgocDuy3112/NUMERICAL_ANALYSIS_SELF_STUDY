@@ -1,4 +1,4 @@
-clear all;
+clear;
 close all;
 clc;
 
@@ -30,7 +30,7 @@ function x = bisection_method(f, a, b, max_iters, tol)
         f_mid = f(mid);
         if abs(f_c) < tol
             break;
-        elseif f_a * f_mid < 0
+        elseif sign(f_a) * sign(f_mid) < 0
             b = mid;
             f_b = f_mid;
         else

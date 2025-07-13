@@ -4,6 +4,12 @@ from collections.abc import Callable
 EPSILON = 1e-12
 
 
+def sign(x: float) -> int:
+    if x < 0: return -1
+    elif x > 0: return 1
+    else: return 0
+
+
 def bisection_algorithm(f: Callable[[float], float], a: float, b: float, num_iters: int=100, tol: float=EPSILON) -> float | None:
     f_a = f(a)
     if abs(f_a) < tol: return a
@@ -21,10 +27,10 @@ def bisection_algorithm(f: Callable[[float], float], a: float, b: float, num_ite
         if abs(b - a) < tol: break
         f_mid = f(mid_point)
         if abs(f_mid) < tol: break
-        if f_a * f_mid > 0:
+        if sign(f_a) * sign(f_mid) > 0:
             a = mid_point
             f_a = f_mid
-        if f_b * f_mid > 0:
+        if sign(f_b) * sign(f_mid) > 0:
             b = mid_point
             f_b = f_mid
 
