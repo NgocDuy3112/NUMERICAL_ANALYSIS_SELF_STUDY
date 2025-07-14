@@ -1,7 +1,7 @@
-import math
 from collections.abc import Callable
 
 EPSILON = 1e-12
+MAX_ITERS = 100
 
 
 def sign(x: float) -> int:
@@ -10,7 +10,8 @@ def sign(x: float) -> int:
     else: return 0
 
 
-def bisection_algorithm(f: Callable[[float], float], a: float, b: float, num_iters: int=100, tol: float=EPSILON) -> float | None:
+def bisection_method(f: Callable[[float], float], a: float, b: float, num_iters: int=MAX_ITERS, tol: float=EPSILON) -> float | None:
+    mid_point = None
     f_a = f(a)
     if abs(f_a) < tol: return a
 
@@ -18,9 +19,9 @@ def bisection_algorithm(f: Callable[[float], float], a: float, b: float, num_ite
     if abs(f_b) < tol: return b
 
     # Check if f_a and f_b have the same signs
-    if f_a * f_b > 0:
+    if sign(f_a) * sign(f_b) > 0:
         print("f(a) and f(b) must have different signs")
-        return None
+        return mid_point
 
     for _ in range(num_iters):
         mid_point = (a + b) / 2
@@ -35,3 +36,9 @@ def bisection_algorithm(f: Callable[[float], float], a: float, b: float, num_ite
             f_b = f_mid
 
     return mid_point
+
+
+if __name__ == "__main__":
+    func = lambda x: x * x * x - 3 * x * x + 1
+    root = bisection_method(func, 0, 1)
+    print(root)
